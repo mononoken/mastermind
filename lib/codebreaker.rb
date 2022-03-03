@@ -1,14 +1,17 @@
 require_relative 'code_combo'
 
 class Codebreaker
-  attr_reader :combo
-
   def initialize
     @name = 'Codebreaker'
+    @guess_combo = nil
   end
 
   def set_combo
     colors = gets.chomp.downcase.split
-    @combo = CodeCombo.new(*colors)
+    @guess_combo = CodeCombo.new(*colors)
+  end
+
+  def guess_combo
+    @guess_combo.combo
   end
 end
