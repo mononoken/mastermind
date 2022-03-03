@@ -1,6 +1,8 @@
 require_relative 'code_combo'
 
 class Codebreaker
+  attr_reader :name
+  
   def initialize
     @name = 'Codebreaker'
     @guess_combo = nil
