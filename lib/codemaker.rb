@@ -1,9 +1,10 @@
 require_relative 'code_combo'
 
 class Codemaker
-  attr_reader :master_code
+  attr_reader :name, :master_code
 
   def initialize
+    @name = 'Codemaker'
     @master_code = nil
   end
 
