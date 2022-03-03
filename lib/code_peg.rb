@@ -10,4 +10,8 @@ class CodePeg < Peg
   def valid_colors
     %w[red blue yellow green white black]
   end
+
+  def self.valid_colors
+    %w[red blue yellow green white black]
+  end
 end
