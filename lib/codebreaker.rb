@@ -6,7 +6,7 @@ class Codebreaker
     @guess_combo = nil
   end
 
-  def set_combo
+  def set_guess_combo
     colors = gets.chomp.downcase.split
     @guess_combo = CodeCombo.new(*colors)
   end
