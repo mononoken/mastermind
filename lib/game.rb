@@ -15,6 +15,7 @@ class Game
 
   def play_game
     puts welcome_msg
+    puts rules_msg
     @codemaker.set_random_master_code
     self.play_round
     until end_condition?
@@ -24,7 +25,8 @@ class Game
 
   def play_round
     @round += 1
-    p @codemaker.master_code
+    p @codemaker.master_code #delete later
+    puts explain_codebreaker_format
     @codebreaker.set_guess_combo
     if self.guess_correct?
       @winner = @codebreaker

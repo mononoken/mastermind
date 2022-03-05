@@ -13,4 +13,16 @@ module Messagable
       'The Codemaker will provide feedback after each guess the Codebreaker makes.'
     ]
   end
+
+  def prompt_codebreaker
+    'Input your guess for the code.'
+  end
+
+  def explain_codebreaker_format
+    [
+      'Input code with each color separated by spaces.',
+      'Do not put any punctuation inbetween colors.',
+      'Ex: "red green blue black"'
+    ]
+  end
 end
