@@ -25,4 +25,8 @@ module Messagable
       'Ex: "red green blue black"'
     ]
   end
+
+  def announce_round
+    "Round #{@round}."
+  end
 end
