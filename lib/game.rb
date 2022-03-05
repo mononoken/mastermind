@@ -1,10 +1,11 @@
 require_relative 'codemaker'
 require_relative 'codebreaker'
 require_relative 'messagable'
+require_relative 'feedback'
 
 class Game
   include Messagable
-  attr_reader :codemaker
+  attr_reader :codemaker #delete later
 
   def initialize
     @codemaker = Codemaker.new
@@ -40,7 +41,11 @@ class Game
   end
 
   def guess_correct?
-    @codebreaker.guess_combo == @codemaker.master_code
+    if @codebreaker.guess_combo == @codemaker.master_code
+      true
+    else
+      @codebreaker.guess_combo[0] == @codemaker.master_code[0]
+      Feedback.new()
   end
 
   def end_condition?
