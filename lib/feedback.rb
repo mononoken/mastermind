@@ -4,8 +4,7 @@ class Feedback
   def initialize(codebreaker_guess, master_code)
     @codebreaker_guess = codebreaker_guess
     @master_code = master_code
-    @correct_col_pos = 0
-    (0..3).each { |i| @correct_col_pos += 1 if codebreaker_guess[i] == master_code[i] }
+    @correct_col_pos = (0..3).count { |i| codebreaker_guess[i] == master_code[i] }
     @correct_col_only = 0
     
   end
