@@ -30,6 +30,8 @@ class Game
     puts announce_round
     p @codemaker.master_code #delete later
     @codebreaker.set_guess_combo
+    round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
+    puts round_feedback.return_feedback
     if self.guess_correct?
       @winner = @codebreaker
       self.end_game
@@ -41,11 +43,7 @@ class Game
   end
 
   def guess_correct?
-    if @codebreaker.guess_combo == @codemaker.master_code
-      true
-    else
-      @codebreaker.guess_combo[0] == @codemaker.master_code[0]
-      Feedback.new()
+    @codebreaker.guess_combo == @codemaker.master_code
   end
 
   def end_condition?
