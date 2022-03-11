@@ -29,4 +29,8 @@ module Messagable
   def announce_round
     "Round #{@round}."
   end
+g
+  def divider
+    '-------------------------------------------------------------------------'
+  end
 end

@@ -15,8 +15,11 @@ class Game
   end
 
   def play_game
+    puts divider
     puts welcome_msg
+    puts divider
     puts rules_msg
+    puts divider
     @codemaker.set_random_master_code
     puts explain_codebreaker_format
     self.play_round
@@ -27,6 +30,7 @@ class Game
 
   def play_round
     @round += 1
+    puts divider
     puts announce_round
     p @codemaker.master_code #delete later
     @codebreaker.set_guess_combo
