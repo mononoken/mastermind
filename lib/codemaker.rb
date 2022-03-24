@@ -15,8 +15,7 @@ class Codemaker
       master_code_colors.push(random_color)
     end
 
-    @master_code = CodeCombo.new(master_code_colors[0], master_code_colors[1],
-                                 master_code_colors[2], master_code_colors[3])
+    @master_code = CodeCombo.new(*master_code_colors)
   end
 
   def master_code
