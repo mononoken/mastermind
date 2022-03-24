@@ -27,3 +27,10 @@ I want to loop through a hash and count all instances that match the value of th
 Remove all correct_col_pos from codebreaker_guess array and master_code array. 
 Then loop through each item in the new codebreaker_guess array 
 and check if it occurs at all in the new master_code array.
+
+---
+
+We need to add functionality that provides feedback for when the player inputs incorrect information.
+
+---
+
