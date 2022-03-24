@@ -1,6 +1,8 @@
 require_relative 'code_combo'
+require_relative 'messagable'
 
 class Codebreaker
+  include Messagable
   attr_reader :name
 
   def initialize
@@ -12,6 +14,7 @@ class Codebreaker
     colors = gets.chomp.downcase.split
     until valid_colors?(colors)
       puts 'Invalid input.'
+      puts explain_codebreaker_format
       colors = gets.chomp.downcase.split
     end
     @guess_combo = CodeCombo.new(*colors)
