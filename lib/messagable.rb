@@ -1,3 +1,5 @@
+require_relative 'code_peg'
+
 module Messagable
   def welcome_msg
     'Welcome! This is a game of Mastermind.'
@@ -18,11 +20,18 @@ module Messagable
     'Input your guess for the code.'
   end
 
+  def valid_colors_msg
+    valid_colors = CodePeg.valid_colors
+    last = valid_colors.pop
+    "Valid colors are #{valid_colors.join(', ')}, and #{last}."
+  end
+
   def explain_codebreaker_format
     [
+      valid_colors_msg,
       'Input code with each color separated by spaces.',
       'Do not put any punctuation inbetween colors.',
-      'Ex: "red green blue black"'
+      'Ex: "red green blue white"'
     ]
   end
 

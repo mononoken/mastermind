@@ -5,7 +5,6 @@ require_relative 'feedback'
 
 class Game
   include Messagable
-  attr_reader :codemaker #delete later
 
   def initialize
     @codemaker = Codemaker.new
@@ -14,28 +13,39 @@ class Game
     @round = 0
   end
 
-  def play_game
+  def intro
     puts divider
     puts welcome_msg
     puts divider
     puts rules_msg
     puts divider
-    @codemaker.set_random_master_code
     puts explain_codebreaker_format
+  end
+
+  def play_game
+    intro
+    @codemaker.set_random_master_code
     self.play_round
     until end_condition?
       self.play_round
     end
   end
 
-  def play_round
+  def begin_round
     @round += 1
     puts divider
     puts announce_round
-    p @codemaker.master_code #delete later
+  end
+
+  def codebreaker_turn
     @codebreaker.set_guess_combo
     round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
     puts round_feedback.return_feedback
+  end
+
+  def play_round
+    begin_round
+    codebreaker_turn
     if self.guess_correct?
       @winner = @codebreaker
       self.end_game
