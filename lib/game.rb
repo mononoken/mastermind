@@ -22,13 +22,18 @@ class Game
     puts explain_codebreaker_format
   end
 
-  def play_game
+  def start_game
     intro
+    play_game
+  end
+
+  def play_game
     @codemaker.set_random_master_code
     self.play_round
     until end_condition?
       self.play_round
     end
+    prompt_replay_game
   end
 
   def begin_round
@@ -65,9 +70,33 @@ class Game
   end
 
   def end_game
+    puts "Master code was #{@codemaker.master_code.join(' ')}."
     puts "#{@winner.name} wins!"
+  end
+
+  def reset_game
+    @winner = nil
+    @round = 0
+  end
+
+  def replay_game
+    reset_game
+    play_game
+  end
+
+  def prompt_replay_game
+    puts 'Play again? (y/n)'
+    case gets.chomp.downcase
+    when 'y'
+      replay_game
+    when 'n'
+      puts 'Thank you for playing!'
+    else
+      puts "Invalid input. Please type 'y' or 'n'."
+      prompt_replay_game
+    end
   end
 end
 
 new_game = Game.new
-new_game.play_game
+new_game.start_game

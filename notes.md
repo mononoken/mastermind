@@ -1,10 +1,7 @@
-Need to provide a list of colors that are possible.
+First version of game is nearly done.
 
-Feedback not behaving correctly
-code: blue white blue blue
+Need to prompt to replay game.
 
-Guess:
-Round 2.
-blue blue white white
-Correct color and position: 1
-Correct color and wrong position: 3
+Announce master_code at end of rounds if codebreaker loses.
+
+Then move to version 2 which incorporates a computer player.
