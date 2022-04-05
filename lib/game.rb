@@ -7,8 +7,8 @@ class Game
   include Messagable
 
   def initialize
-    @codemaker = Codemaker.new
-    @codebreaker = Codebreaker::HumanCodebreaker.new
+    @codemaker = nil
+    @codebreaker = nil
     @winner = nil
     @round = 0
   end
@@ -24,6 +24,8 @@ class Game
 
   def start_game
     intro
+    @codebreaker = Codebreaker::HumanCodebreaker.new
+    @codemaker = Codemaker.new
     play_game
   end
 
