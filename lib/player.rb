@@ -3,7 +3,6 @@ class Player
 
   def initialize
     @name = 'Player'
-    pick_role
   end
 
   def pick_role

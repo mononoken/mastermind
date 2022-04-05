@@ -1,12 +1,14 @@
 require_relative 'codemaker'
 require_relative 'codebreaker'
 require_relative 'messagable'
+require_relative 'player'
 require_relative 'feedback'
 
 class Game
   include Messagable
 
   def initialize
+    @player = Player.new
     @codemaker = nil
     @codebreaker = nil
     @winner = nil
@@ -22,10 +24,17 @@ class Game
     puts explain_codebreaker_format
   end
 
+  def player_pick_role
+    @player.pick_role
+    if @player.role == 'codebreaker'
+      @codebreaker = Codebreaker::HumanCodebreaker.new
+      @codemaker = Codemaker::ComputerCodemaker.new
+    end
+  end
+
   def start_game
     intro
-    @codebreaker = Codebreaker::HumanCodebreaker.new
-    @codemaker = Codemaker.new
+    player_pick_role
     play_game
   end
 
