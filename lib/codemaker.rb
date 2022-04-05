@@ -1,6 +1,8 @@
 require_relative 'code_combo'
 
 module Codemaker
+  class HumanCodemaker end
+
   class ComputerCodemaker
     attr_reader :name
 

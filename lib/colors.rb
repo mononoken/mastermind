@@ -15,4 +15,12 @@ module Colors
   def convert_to_colors(nums_array)
     nums_array.map { |num| convert_to_color(num) }
   end
+
+  def convert_to_num(color)
+    NUM_COLORS.key(color)
+  end
+
+  def convert_to_nums(colors)
+    colors.map { |color| convert_to_num(color) }
+  end
 end
