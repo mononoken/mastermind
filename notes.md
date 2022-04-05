@@ -1,18 +1,4 @@
-Fix breaking if type less or more than 4 colors.
-
-Clarify that multiple colors can be used in instructions.
-
 Add a quit option throughout the game.
-
----
-
-First version of game is nearly done.
-
-Need to prompt to replay game.
-
-Announce master_code at end of rounds if codebreaker loses.
-
-Then move to version 2 which incorporates a computer player.
 
 ---
 
@@ -21,3 +7,8 @@ Each position has possible colors. As guesses go, computer play eliminiates poss
 ---
 
 I decided I should make the randomization process for the computer player independent of the game and then add it to the game.
+
+Codebreaker and Codemaker shall have if statements that use different methods depending on if the Codemaker type is computer or player.
+- Must set a variable that tracks the type of Codemaker/Codebreaker as 'computer' or 'player'.
+- For player, methods will require input but for computer the moves will auto-generate. Their separate methods will be triggered by the same method which will have an if statement depending on whether player/computer.
+- Create a 'try' method where computer tries every possibility and sees if it matches the feedback provided. If it does not match, remove it from possible combos.

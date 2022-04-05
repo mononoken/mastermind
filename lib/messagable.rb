@@ -8,9 +8,10 @@ module Messagable
   def rules_msg
     [
       'Player is assigned to the role of Codebreaker.',
-      'The computer is the Codemaker.',
+      'The computer is the Codgemaker.',
       'The Codemaker will create a Master Code.',
       'The Master Code will consist of an ordered sequence of four colors.',
+      "Colors may appear multiple times in the Master Code. E.g. 'red red red black'",
       'The Codebreaker will guess the Master Code with a total of 12 guesses.',
       'The Codemaker will provide feedback after each guess the Codebreaker makes.'
     ]
