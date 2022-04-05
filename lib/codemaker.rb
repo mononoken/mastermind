@@ -4,6 +4,7 @@ class Codemaker
   attr_reader :name
 
   def initialize
+    @role = 'codemaker'
     @name = 'Codemaker'
     @master_code = nil
   end

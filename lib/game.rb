@@ -8,7 +8,7 @@ class Game
 
   def initialize
     @codemaker = Codemaker.new
-    @codebreaker = Codebreaker.new
+    @codebreaker = Codebreaker::HumanCodebreaker.new
     @winner = nil
     @round = 0
   end

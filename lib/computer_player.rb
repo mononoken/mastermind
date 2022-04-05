@@ -6,9 +6,22 @@ class ComputerPlayer
   include Colors
   def initialize
     @name = 'Computer'
+    @role = nil
     @combos = (1111..6666).to_a.reject { |i| i.to_s.include?('0') }
   end
 
+  # Codemaker methods
+  def set_random_master_code
+    master_code_colors = []
+    4.times do
+      random_color = CodePeg.valid_colors[rand(6)]
+      master_code_colors.push(random_color)
+    end
+
+    @master_code = CodeCombo.new(*master_code_colors)
+  end
+
+  # Codebreaker methods
   def reset_combos
     @combos = (1111..6666).to_a.reject { |i| i.to_s.include?('0') }
   end

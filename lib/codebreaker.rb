@@ -1,34 +1,47 @@
 require_relative 'code_combo'
 require_relative 'messagable'
+require_relative 'player'
 
-class Codebreaker
+module Codebreaker
   include Messagable
-  attr_reader :name
 
-  def initialize
-    @name = 'Codebreaker'
-    @guess_combo = nil
-  end
-
-  def set_guess_combo
-    colors = gets.chomp.downcase.split
-    until colors.count == 4
-      puts 'You must choose 4 colors only.'
-      colors = gets.chomp.downcase.split
+  class HumanCodebreaker < Player
+    def initialize
+      super
+      @colors = nil
+      @guess_combo = nil
     end
-    until valid_colors?(colors)
+
+    def valid_code_length?(code)
+      code.count == 4
+    end
+
+    def invalid_code_length
+      puts 'You must choose 4 colors only.'
+      @colors = gets.chomp.downcase.split
+    end
+
+    def valid_colors?(colors)
+      colors.all? { |color| CodePeg.valid_colors.any?(color) }
+    end
+
+    def invalid_colors
       puts 'Invalid input.'
       puts explain_codebreaker_format
-      colors = gets.chomp.downcase.split
+      @colors = gets.chomp.downcase.split
     end
-    @guess_combo = CodeCombo.new(*colors)
+
+    def set_guess_combo
+      @colors = gets.chomp.downcase.split
+      invalid_code_length unless valid_code_length?(@colors)
+      invalid_colors unless valid_colors?(@colors)
+      @guess_combo = CodeCombo.new(*@colors)
+    end
+
+    def guess_combo
+      @guess_combo.combo
+    end
   end
 
-  def valid_colors?(colors)
-    colors.all? { |color| CodePeg.valid_colors.any?(color) }
-  end
-
-  def guess_combo
-    @guess_combo.combo
-  end
+  class ComputerCodebreaker end
 end
