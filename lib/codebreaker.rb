@@ -12,6 +12,10 @@ class Codebreaker
 
   def set_guess_combo
     colors = gets.chomp.downcase.split
+    until colors.count == 4
+      puts 'You must choose 4 colors only.'
+      colors = gets.chomp.downcase.split
+    end
     until valid_colors?(colors)
       puts 'Invalid input.'
       puts explain_codebreaker_format
