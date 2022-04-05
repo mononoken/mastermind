@@ -1,16 +1,18 @@
 module Colors
-  def color_legend
-    {
-      red: 'RED',
-      blue: 'BLU',
-      yellow: 'YLW',
-      green: 'GRN',
-      white: 'WHT',
-      black: 'BLK'
-    }
+  NUM_COLORS = {
+    1 => 'red',
+    2 => 'green',
+    3 => 'blue',
+    4 => 'yellow',
+    5 => 'white',
+    6 => 'black'
+  }
+
+  def convert_to_color(num)
+    NUM_COLORS[num]
   end
 
-  def convert_color_to_legend(color)
-    color_legend.fetch(color.to_sym)
+  def convert_to_colors(nums_array)
+    nums_array.map { |num| convert_to_color(num) }
   end
 end
