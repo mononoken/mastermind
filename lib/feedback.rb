@@ -30,4 +30,8 @@ class Feedback
       "Correct color and wrong position: #{@correct_clr_only}"
     ]
   end
+
+  def feedback_array
+    [@correct_clr_pos, @correct_clr_only]
+  end
 end

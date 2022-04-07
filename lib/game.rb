@@ -6,6 +6,7 @@ require_relative 'feedback'
 
 class Game
   include Messagable
+  attr_reader :round, :round_feedback
 
   def initialize
     @player = Player.new
@@ -27,7 +28,7 @@ class Game
   def player_pick_role
     @player.pick_role
     if @player.role == 'codebreaker'
-      @codebreaker = Codebreaker::HumanCodebreaker.new
+      @codebreaker = @player
       @codemaker = Codemaker::ComputerCodemaker.new
     #else opposite
     end
@@ -41,7 +42,6 @@ class Game
 
   def play_game
     @codemaker.set_random_master_code
-    self.play_round
     self.play_round until end_condition?
     prompt_replay_game
   end
@@ -54,8 +54,8 @@ class Game
 
   def codebreaker_turn
     @codebreaker.set_guess_combo
-    round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
-    puts round_feedback.return_feedback
+    @round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
+    puts @round_feedback.return_feedback
   end
 
   def play_round
