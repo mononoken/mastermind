@@ -10,6 +10,7 @@ class Game
 
   def initialize
     @player = Player.new
+    @player.game = self
     @codemaker = nil
     @codebreaker = nil
     @winner = nil

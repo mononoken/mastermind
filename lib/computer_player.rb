@@ -8,11 +8,13 @@ class ComputerPlayer
 
   def initialize
     @name = 'Computer'
+    @game = nil
     @role = nil
     @combo_inventory = (1111..6666).to_a
     @combo_inventory = @combo_inventory.map { |nums| nums.to_s.split('') }
     @combo_inventory = @combo_inventory.reject { |combo_array| combo_array.any? { |i| ['0', '7', '8', '9'].include?(i) } }
     @combo_inventory = @combo_inventory.map { |combo_array| convert_to_colors(combo_array) }
+    @guess_combo = nil
   end
 
   # Codebreaker methods
@@ -33,17 +35,49 @@ class ComputerPlayer
   end
 
   def starting_move
-    convert_to_colors(first_move)
+    @guess_combo = convert_to_colors(first_move)
   end
 
   def remove_combo(combo)
     @combo_inventory.delete(combo)
   end
 
-  def clear_inventory
-    nil
+  def set_guess_combo
+    @guess_combo =
+      if new_game.round == 1
+        CodeCombo.new(*starting_move)
+      else
+        CodeCombo.new(*random_move)
+      end
+    remove_combo(@guess_combo)
+    simulate_feedback(new_game.round_feedback.feedback_array)
+  end
+
+  def simulate_feedback(master_code)
+    codebreaker_guess = @guess_combo
+    correct_clr_pos = (0..3).count { |i| codebreaker_guess[i] == master_code[i] }
+    codebreaker_guess_reduced =
+      (0..3).reduce([]) do |nonmatching, i|
+        nonmatching.push(codebreaker_guess[i]) if codebreaker_guess[i] != master_code[i]
+        nonmatching
+      end
+    master_code_reduced =
+      (0..3).reduce([]) do |nonmatching, i|
+        nonmatching.push(master_code[i]) if codebreaker_guess[i] != master_code[i]
+        nonmatching
+      end
+    correct_clr_only = codebreaker_guess_reduced.count do |i|
+      contains_i = master_code_reduced.any?(i)
+      if contains_i
+        master_code_reduced.delete_at(master_code_reduced.index(i))
+      end
+      contains_i
+    end
+    return correct_clr_pos, correct_clr_only
+  end
+
+  def sweep_inventory(round_feedback)
+    # If simulated feedback does not match actual feedback, remove combo.
+    @combo_inventory.select { |combo_array| simulate_feedback(combo_array) == round_feedback }
   end
 end
-
-test = ComputerPlayer.new
-p test.combo_inventory

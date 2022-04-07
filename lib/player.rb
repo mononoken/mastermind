@@ -3,9 +3,11 @@ require_relative 'codemaker'
 
 class Player
   attr_reader :name, :role
+  attr_accessor :game
 
   def initialize
     @name = 'Player'
+    @game = nil
     @role = nil
   end
 
