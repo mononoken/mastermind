@@ -1,14 +1,12 @@
 require_relative 'code_combo'
 
 module Codemaker
-  class HumanCodemaker end
+  module HumanCodemaker end
 
-  class ComputerCodemaker
+  module ComputerCodemaker
     attr_reader :name
 
     def initialize
-      @role = 'codemaker'
-      @name = 'Codemaker'
       @master_code = nil
     end
 
