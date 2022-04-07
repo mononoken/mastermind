@@ -5,7 +5,7 @@ require_relative 'player'
 module Codebreaker
   include Messagable
 
-  class HumanCodebreaker < Player
+  module HumanCodebreaker
     def initialize
       super
       @colors = nil
@@ -43,5 +43,5 @@ module Codebreaker
     end
   end
 
-  class ComputerCodebreaker end
+  module ComputerCodebreaker end
 end
