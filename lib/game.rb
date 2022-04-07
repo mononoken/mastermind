@@ -29,6 +29,7 @@ class Game
     if @player.role == 'codebreaker'
       @codebreaker = Codebreaker::HumanCodebreaker.new
       @codemaker = Codemaker::ComputerCodemaker.new
+    #else opposite
     end
   end
 
@@ -41,9 +42,7 @@ class Game
   def play_game
     @codemaker.set_random_master_code
     self.play_round
-    until end_condition?
-      self.play_round
-    end
+    self.play_round until end_condition?
     prompt_replay_game
   end
 
@@ -76,8 +75,16 @@ class Game
     @codebreaker.guess_combo == @codemaker.master_code
   end
 
+  def winner?
+    !@winner.nil?
+  end
+
+  def final_round?
+    @round >= 12
+  end
+
   def end_condition?
-    !@winner.nil? || @round >= 12
+    winner? || final_round?
   end
 
   def end_game
