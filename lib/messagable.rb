@@ -43,4 +43,15 @@ module Messagable
   def divider
     '-------------------------------------------------------------------------'
   end
+
+  def intro_msg
+    [
+      divider,
+      welcome_msg,
+      divider,
+      rules_msg,
+      divider,
+      explain_codebreaker_format
+    ]
+  end
 end

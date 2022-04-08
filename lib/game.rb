@@ -17,12 +17,7 @@ class Game
   end
 
   def intro
-    puts divider
-    puts welcome_msg
-    puts divider
-    puts rules_msg
-    puts divider
-    puts explain_codebreaker_format
+    puts intro_msg
   end
 
   def create_players
@@ -38,7 +33,10 @@ class Game
     if @player.role == 'codebreaker'
       @codebreaker = @player
       @codemaker = @computerplayer
-    #else opposite
+    end
+    if @player.role == 'codemaker'
+      @codemaker = @player
+      @codebreaker = @computerplayer
     end
   end
 
