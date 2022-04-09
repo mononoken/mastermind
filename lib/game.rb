@@ -1,7 +1,7 @@
 require_relative 'codemaker'
 require_relative 'codebreaker'
 require_relative 'messagable'
-require_relative 'player'
+require_relative 'human_player'
 require_relative 'computer_player'
 require_relative 'feedback'
 
@@ -12,7 +12,7 @@ class Game
   def initialize
     @codemaker = nil
     @codebreaker = nil
-    @player = Player.new
+    @player = HumanPlayer.new
     @player.game = self
     @computerplayer = ComputerPlayer.new
     @computerplayer.game = self
@@ -25,7 +25,7 @@ class Game
     puts intro_msg
   end
 
-  def player_pick_role
+  def assign_roles
     @player.pick_role
     @computerplayer.opposite_player_role
     if @player.role == 'codebreaker'
@@ -36,6 +36,21 @@ class Game
       @codemaker = @player
       @codebreaker = @computerplayer
     end
+  end
+
+  def begin_round
+    @round += 1
+    puts divider
+    puts announce_round
+  end
+
+  def codebreaker_turn
+    @codebreaker.set_guess_combo
+  end
+
+  def turn_feedback
+    @round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
+    puts @round_feedback.return_feedback
   end
 
   def play_round
@@ -56,21 +71,6 @@ class Game
     @codemaker.set_master_code
     self.play_round until end_condition?
     prompt_replay_game
-  end
-
-  def begin_round
-    @round += 1
-    puts divider
-    puts announce_round
-  end
-
-  def codebreaker_turn
-    @codebreaker.set_guess_combo
-  end
-
-  def turn_feedback
-    @round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
-    puts @round_feedback.return_feedback
   end
 
   def guess_correct?
@@ -96,7 +96,7 @@ class Game
 
   def start_game
     intro
-    player_pick_role
+    assign_roles
     play_game
   end
 

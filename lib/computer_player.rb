@@ -1,24 +1,23 @@
 require_relative 'codebreaker'
 require_relative 'codemaker'
 require_relative 'colors'
+require_relative 'player'
 
-class ComputerPlayer
+class ComputerPlayer < Player
   include Colors
   attr_reader :name, :combo_inventory
-  attr_accessor :game
 
   def initialize
     @name = 'Computer'
-    @game = nil
-    @role = nil
+    super
   end
 
-  def codebreaker?
-    @role == 'codebreaker'
+  def become_codebreaker
+    self.extend(Codebreaker::ComputerCodebreaker)
   end
 
-  def codemaker?
-    @role == 'codemaker'
+  def become_codemaker
+    self.extend(Codemaker::ComputerCodemaker)
   end
 
   def opposite_player_role
@@ -28,15 +27,6 @@ class ComputerPlayer
     when 'codemaker'
       @role = 'codebreaker'
     end
-    become_codebreaker if codebreaker?
-    become_codemaker if codemaker?
-  end
-
-  def become_codebreaker
-    self.extend(Codebreaker::ComputerCodebreaker)
-  end
-
-  def become_codemaker
-    self.extend(Codemaker::ComputerCodemaker)
+    become_role
   end
 end

@@ -84,7 +84,6 @@ module Codebreaker
       @guess_combo = CodeCombo.new(*colors)
     end
 
-    # This method needs a lot of work
     def set_guess_combo
       if @game.round == 1
         reset_combo_inventory
