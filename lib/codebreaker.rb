@@ -1,6 +1,7 @@
 require_relative 'code_combo'
 require_relative 'messagable'
 require_relative 'player'
+require_relative 'feedback'
 
 module Codebreaker
   include Messagable
@@ -45,11 +46,16 @@ module Codebreaker
 
   module ComputerCodebreaker
     def initialize
+      super
       @combo_inventory = (1111..6666).to_a
       @combo_inventory = @combo_inventory.map { |nums| nums.to_s.split('') }
       @combo_inventory = @combo_inventory.reject { |combo_array| combo_array.any? { |i| ['0', '7', '8', '9'].include?(i) } }
       @combo_inventory = @combo_inventory.map { |combo_array| convert_to_colors(combo_array) }
       @guess_combo = nil
+    end
+
+    def guess_combo
+      @guess_combo.combo
     end
 
     def reset_combo_inventory
@@ -69,41 +75,53 @@ module Codebreaker
     end
 
     def starting_move
-      @guess_combo = convert_to_colors(first_move)
+      colors = convert_to_colors(first_move)
+      @guess_combo = CodeCombo.new(*colors)
     end
 
     def remove_combo(combo)
-      @combo_inventory.delete(combo)
+      @combo_inventory.delete(combo.combo)
     end
 
+    def random_move
+      colors = @combo_inventory.sample
+      @guess_combo = CodeCombo.new(*colors)
+    end
+
+    # This method needs a lot of work
     def set_guess_combo
-      @guess_combo =
-        if @game.round == 1
-          CodeCombo.new(*starting_move)
-        else
-          CodeCombo.new(*random_move)
-        end
+      sweep_inventory(@game.round_feedback.feedback_array) unless @game.round == 1
+      if @game.round == 1
+        @combo_inventory = (1111..6666).to_a
+        @combo_inventory = @combo_inventory.map { |nums| nums.to_s.split('') }
+        @combo_inventory = @combo_inventory.reject { |combo_array| combo_array.any? { |i| ['0', '7', '8', '9'].include?(i) } }
+        @combo_inventory = @combo_inventory.map { |combo_array| convert_to_colors(combo_array) }    
+        starting_move
+      else
+        random_move
+      end
+      puts guess_combo.join(' ')
+      #Codebreaker initialize is not initialized bc not part of object at initiation.
       remove_combo(@guess_combo)
-      sweep_inventory(@game.round_feedback.feedback_array)
     end
 
-    def simulate_feedback(master_code)
-      codebreaker_guess = @guess_combo
-      correct_clr_pos = (0..3).count { |i| codebreaker_guess[i] == master_code[i] }
+    def simulate_feedback(inventory_array)
+      codebreaker_guess = guess_combo
+      correct_clr_pos = (0..3).count { |i| codebreaker_guess[i] == inventory_array[i] }
       codebreaker_guess_reduced =
         (0..3).reduce([]) do |nonmatching, i|
-          nonmatching.push(codebreaker_guess[i]) if codebreaker_guess[i] != master_code[i]
+          nonmatching.push(codebreaker_guess[i]) if codebreaker_guess[i] != inventory_array[i]
           nonmatching
         end
-      master_code_reduced =
+      inventory_array_reduced =
         (0..3).reduce([]) do |nonmatching, i|
-          nonmatching.push(master_code[i]) if codebreaker_guess[i] != master_code[i]
+          nonmatching.push(inventory_array[i]) if codebreaker_guess[i] != inventory_array[i]
           nonmatching
         end
       correct_clr_only = codebreaker_guess_reduced.count do |i|
-        contains_i = master_code_reduced.any?(i)
+        contains_i = inventory_array_reduced.any?(i)
         if contains_i
-          master_code_reduced.delete_at(master_code_reduced.index(i))
+          inventory_array_reduced.delete_at(inventory_array_reduced.index(i))
         end
         contains_i
       end
@@ -112,7 +130,9 @@ module Codebreaker
 
     def sweep_inventory(round_feedback)
       # If simulated feedback does not match actual feedback, remove combo.
-      @combo_inventory.select { |combo_array| simulate_feedback(combo_array) == round_feedback }
+      @combo_inventory = @combo_inventory.select do |inventory_array|
+        simulate_feedback(inventory_array) == round_feedback
+      end
     end
   end
 end

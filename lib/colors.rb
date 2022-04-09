@@ -9,7 +9,7 @@ module Colors
   }
 
   def convert_to_color(num)
-    NUM_COLORS.fetch(num)
+    NUM_COLORS.fetch(num.to_s)
   end
 
   def convert_to_colors(num_array)

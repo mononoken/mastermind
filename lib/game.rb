@@ -12,19 +12,17 @@ class Game
   def initialize
     @codemaker = nil
     @codebreaker = nil
-    @winner = nil
-    @round = 0
-  end
-
-  def intro
-    puts intro_msg
-  end
-
-  def create_players
     @player = Player.new
     @player.game = self
     @computerplayer = ComputerPlayer.new
     @computerplayer.game = self
+    @winner = nil
+    @round = 0
+    @round_feedback = nil
+  end
+
+  def intro
+    puts intro_msg
   end
 
   def player_pick_role
@@ -40,15 +38,22 @@ class Game
     end
   end
 
-  def start_game
-    intro
-    create_players
-    player_pick_role
-    play_game
+  def play_round
+    begin_round
+    codebreaker_turn
+    turn_feedback
+    if self.guess_correct?
+      @winner = @codebreaker
+      self.end_game
+    end
+    if @round >= 12
+      @winner = @codemaker
+      self.end_game
+    end
   end
 
   def play_game
-    @codemaker.set_random_master_code
+    @codemaker.set_master_code
     self.play_round until end_condition?
     prompt_replay_game
   end
@@ -61,21 +66,11 @@ class Game
 
   def codebreaker_turn
     @codebreaker.set_guess_combo
-    @round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
-    puts @round_feedback.return_feedback
   end
 
-  def play_round
-    begin_round
-    codebreaker_turn
-    if self.guess_correct?
-      @winner = @codebreaker
-      self.end_game
-    end
-    if @round >= 12
-      @winner = @codemaker
-      self.end_game
-    end
+  def turn_feedback
+    @round_feedback = Feedback.new(@codebreaker.guess_combo, @codemaker.master_code)
+    puts @round_feedback.return_feedback
   end
 
   def guess_correct?
@@ -97,6 +92,12 @@ class Game
   def end_game
     puts "Master code was #{@codemaker.master_code.join(' ')}."
     puts "#{@winner.name} wins!"
+  end
+
+  def start_game
+    intro
+    player_pick_role
+    play_game
   end
 
   def reset_game

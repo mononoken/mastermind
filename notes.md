@@ -19,4 +19,4 @@ Codebreaker and Codemaker shall have if statements that use different methods de
 
 ---
 
-Because role of player and computer can switch between turns, Player and Computer should be objects with a class. Codemaker and Codebreaker can be modules that these classes include. 
+Just need to apply Computer as Codebreaker and then clean up game!

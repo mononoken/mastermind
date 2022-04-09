@@ -4,7 +4,7 @@ require_relative 'colors'
 
 class ComputerPlayer
   include Colors
-  attr_reader :combo_inventory
+  attr_reader :name, :combo_inventory
   attr_accessor :game
 
   def initialize

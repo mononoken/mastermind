@@ -15,12 +15,12 @@ class Player
     puts "Please pick the role of 'codebreaker' or codemaker'."
     @role = gets.chomp.downcase
     become_codebreaker if codebreaker?
-    # become_codemaker if codemaker? Combine into new method
+    become_codemaker if codemaker?
     until @role == 'codebreaker' || @role == 'codemaker'
       puts "Invalid role. Please pick 'codebreaker' or 'codemaker'"
       @role = gets.chomp.downcase
       become_codebreaker if codebreaker?
-      # become_codemaker if codemaker?
+      become_codemaker if codemaker?
     end
   end
 
@@ -28,7 +28,15 @@ class Player
     @role == 'codebreaker'
   end
 
+  def codemaker?
+    @role == 'codemaker'
+  end
+
   def become_codebreaker
     self.extend(Codebreaker::HumanCodebreaker)
+  end
+
+  def become_codemaker
+    self.extend(Codemaker::HumanCodemaker)
   end
 end
