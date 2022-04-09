@@ -47,10 +47,6 @@ module Codebreaker
   module ComputerCodebreaker
     def initialize
       super
-      @combo_inventory = (1111..6666).to_a
-      @combo_inventory = @combo_inventory.map { |nums| nums.to_s.split('') }
-      @combo_inventory = @combo_inventory.reject { |combo_array| combo_array.any? { |i| ['0', '7', '8', '9'].include?(i) } }
-      @combo_inventory = @combo_inventory.map { |combo_array| convert_to_colors(combo_array) }
       @guess_combo = nil
     end
 
@@ -90,18 +86,14 @@ module Codebreaker
 
     # This method needs a lot of work
     def set_guess_combo
-      sweep_inventory(@game.round_feedback.feedback_array) unless @game.round == 1
       if @game.round == 1
-        @combo_inventory = (1111..6666).to_a
-        @combo_inventory = @combo_inventory.map { |nums| nums.to_s.split('') }
-        @combo_inventory = @combo_inventory.reject { |combo_array| combo_array.any? { |i| ['0', '7', '8', '9'].include?(i) } }
-        @combo_inventory = @combo_inventory.map { |combo_array| convert_to_colors(combo_array) }    
+        reset_combo_inventory
         starting_move
       else
+        sweep_inventory(@game.round_feedback.feedback_array)
         random_move
       end
       puts guess_combo.join(' ')
-      #Codebreaker initialize is not initialized bc not part of object at initiation.
       remove_combo(@guess_combo)
     end
 
@@ -129,7 +121,6 @@ module Codebreaker
     end
 
     def sweep_inventory(round_feedback)
-      # If simulated feedback does not match actual feedback, remove combo.
       @combo_inventory = @combo_inventory.select do |inventory_array|
         simulate_feedback(inventory_array) == round_feedback
       end
