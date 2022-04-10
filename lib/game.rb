@@ -91,7 +91,7 @@ class Game
 
   def end_game
     puts "Master code was #{@codemaker.master_code.join(' ')}."
-    puts "#{@winner.name} wins!"
+    puts "#{@winner.name} wins on round #{@round}!"
   end
 
   def start_game
@@ -123,6 +123,3 @@ class Game
     end
   end
 end
-
-new_game = Game.new
-new_game.start_game
