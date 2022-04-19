@@ -4,9 +4,9 @@ require_relative 'player'
 require_relative 'feedback'
 
 module Codebreaker
-  include Messagable
-
   module HumanCodebreaker
+    include Messagable
+
     def initialize
       super
       @colors = nil
@@ -34,8 +34,8 @@ module Codebreaker
 
     def set_guess_combo
       @colors = gets.chomp.downcase.split
-      invalid_code_length unless valid_code_length?(@colors)
-      invalid_colors unless valid_colors?(@colors)
+      invalid_code_length until valid_code_length?(@colors)
+      invalid_colors until valid_colors?(@colors)
       @guess_combo = CodeCombo.new(*@colors)
     end
 
